@@ -42,7 +42,7 @@ Afterwards you’re able to work inside container.
 #notes
 
 During setup docker container will be created. It has name 'rally-MOS-benchmarking'
-So if you press ctrl+D when you inside container you can just login agein with 'dockerctl shell rally-MOS-benchmarking'
+So if you press ctrl+D when you inside container you can just login again with 'dockerctl shell rally-MOS-benchmarking'
 
 #cleanup
 
