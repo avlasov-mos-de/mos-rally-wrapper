@@ -1,0 +1,61 @@
+---
+  NovaServers.boot_and_list_server:
+    -
+      args:
+        flavor:
+            name: {{flavor_name}}
+        image:
+            name: {{image_name}}
+        detailed: True
+      runner:
+        type: "constant"
+        times: {{instance_count}}
+        concurrency: 1
+      context:
+        users:
+          tenants: 1
+          users_per_tenant: 1
+
+  NovaServers.boot_and_delete_multiple_servers:
+    -
+      args:
+        image:
+          name: {{image_name}}
+        flavor:
+          name: {{flavor_name}}
+        count: {{sqrt_of_inst_count}}
+      runner:
+        type: "constant"
+        times: 5
+        concurrency: {{sqrt_of_inst_count}}
+      context:
+        users:
+          tenants: 1
+          users_per_tenant: 1
+
+  CinderVolumes.create_and_delete_volume:
+    -
+      args:
+        size: {{volume_size}}
+      runner:
+        type: "constant"
+        times: 5
+        concurrency: {{volume_count}}
+      context:
+        users:
+          tenants: 1
+          users_per_tenant: 1
+    -
+      args:
+        size: {{volume_size}}
+        image:
+            name: {{image_name}}
+      runner:
+        type: "constant"
+        times: 5
+        concurrency: {{volume_count}}
+      context:
+        users:
+          tenants: 1
+          users_per_tenant: 1
+
