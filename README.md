@@ -9,12 +9,12 @@ Download archive with two scripts and extract it
 
 Install git, clone repo, change to mos-rally-wrapper directory and execute script prepare_rally_container.sh 
 
-  yum -y install git
-  git clone https://github.com/avlasov-mos-de/mos-rally-wrapper.git
-  cd mos-rally-wrapper/
-  ./prepare_rally_container.sh
+  yum -y install git<br>
+  git clone https://github.com/avlasov-mos-de/mos-rally-wrapper.git<br>
+  cd mos-rally-wrapper/<br>
+  ./prepare_rally_container.sh<br>
 
-This script will 
+This script will: 
 - create directory rally_home which will be mounted inside rally container to /home/rally
 - get openrc file from controller node and make changes in order to use Public nedpoint
 - try to change keystone endpoint so that it use PublicIP for adminurl
@@ -30,7 +30,7 @@ cd /home/rally/
 
 Execute prepare_rally.sh
 
-This script will 
+This script will: 
 - recreate rally database 
 - use opernc and ask you questions regarding connection to your cloud(url, region, admin user credentials, additional    users credentials, etc)
 - create config file for adding cloud to rally DB and add it
