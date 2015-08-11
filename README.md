@@ -9,10 +9,10 @@ Download archive with two scripts and extract it
 
 Install git, clone repo, change to mos-rally-wrapper directory and execute script prepare_rally_container.sh 
 
-  yum -y install git<br>
-  git clone https://github.com/avlasov-mos-de/mos-rally-wrapper.git<br>
-  cd mos-rally-wrapper/<br>
-  ./prepare_rally_container.sh<br>
+  *yum -y install git*<br />
+  *git clone https://github.com/avlasov-mos-de/mos-rally-wrapper.git*<br />
+  *cd mos-rally-wrapper*<br />
+  *./prepare_rally_container.sh*<br />
 
 This script will: 
 - create directory rally_home which will be mounted inside rally container to /home/rally
@@ -24,11 +24,10 @@ As result you end up inside container.
 
 #So follow next steps
 
-As you're now inside container. Make sure your location is /home/rally
+As you're now inside container. Make sure your location is /home/rally and execute prepare_rally.sh
 
-cd /home/rally/
-
-Execute prepare_rally.sh
+*cd /home/rally/*<br />
+*./prepare_rally.sh*<br />
 
 This script will: 
 - recreate rally database 
