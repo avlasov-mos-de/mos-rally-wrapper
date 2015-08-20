@@ -8,7 +8,7 @@ echo "Declaring vars"
 
 DIR_NAME="rally_home"
 RALLY_IMAGE="rallyforge/rally"
-cntrl_ip=`fuel node|grep controller|head -n 1| awk '{print $10}'`
+cntrl_ip=`fuel nodes |grep controller |head -n 1| awk -F\| '{print $5}'`
 
 keystone_srv_id=`ssh root@${cntrl_ip} "source openrc; keystone service-list" |grep keystone|awk '{print $2}'`
 endpoint_id=`ssh root@${cntrl_ip} "source openrc; keystone endpoint-list" |grep ${keystone_srv_id}|awk '{print $2}'`
