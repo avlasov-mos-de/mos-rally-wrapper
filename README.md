@@ -47,3 +47,6 @@ So if you press ctrl+D when you inside container you can just login again with '
 
 clenup.sh will stop and remove 'rally-MOS-benchmarking' container as well as ~/rally_home directory
 
+#TODO
+
+- cleanup.sh should revert keystone admin endpoint.

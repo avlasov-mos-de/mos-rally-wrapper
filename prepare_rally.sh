@@ -10,6 +10,8 @@ rally-manage db recreate
 ###==================================================================
 source openrc
 
+echo "${OS_PUBLIC_IP} $(echo ${OS_AUTH_URL} | sed 's/https:\/\///;s|:.*||')" >> /etc/hosts
+
 echo "Please use operc to answer following questions"
 echo "Please notice that openrc has been predownloaded from controller and URL has been changed to public which will be default value in the dialog below"
 
@@ -95,8 +97,8 @@ rally deployment check
 ###================================================================
 
 source openrc
-vcpu_total=`nova hypervisor-stats |grep "vcpus " |grep -v vcpus_used | awk '{print $4}'`
-vcpu_used=`nova hypervisor-stats |grep vcpus_used | awk '{print $4}'`
+vcpu_total=`nova --insecure hypervisor-stats |grep "vcpus " |grep -v vcpus_used | awk '{print $4}'`
+vcpu_used=`nova --insecure hypervisor-stats |grep vcpus_used | awk '{print $4}'`
 
 vcpu_count=$(( $vcpu_total-$vcpu_used ))
 
