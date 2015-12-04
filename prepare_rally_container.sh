@@ -15,8 +15,7 @@ function init_vars() {
     message "Declaring vars"
     DIR_NAME="rally_home"
     RALLY_IMAGE="rallyforge/rally"
-    local controller_host_id="$(fuel node "$@" | grep controller | awk '{print $1}' | head -1)"
-    CONTROLLER_HOST="node-${controller_host_id}"
+    CONTROLLER_HOST="$(fuel node "$@" | grep controller | awk -F\| '{print $5}' | tr -d ' ' | head -1)"
     REMOTE_CA_CERT="${REMOTE_CA_CERT:-/var/lib/astute/haproxy/public_haproxy.pem}"
     LOCAL_CA_CERT="${LOCAL_CA_CERT:-${USER_HOME_DIR}/public_haproxy.pem}"
     OS_PUBLIC_AUTH_URL="$(ssh ${CONTROLLER_HOST} ". openrc; keystone catalog --service identity 2>/dev/null | grep publicURL | awk '{print \$4}'")"
@@ -60,13 +59,13 @@ function add_public_bind_to_keystone_haproxy_conf() {
     # to make haproxy listen to Keystone admin port 35357 on interface with public IP
     message "Add public bind to Keystone haproxy config for admin port on all controllers"
     if [ ! "$(ssh ${CONTROLLER_HOST} "grep ${OS_PUBLIC_IP}:35357 ${KEYSTONE_HAPROXY_CONFIG_PATH}")" ]; then
-        local controller_node_ids=$(fuel node "$@" | grep controller | awk '{print $1}')
+        local controller_node_ips="$(fuel node "$@" | grep controller | awk -F\| '{print $5}' | tr -d ' ')"
         local bind_string="  bind ${OS_PUBLIC_IP}:35357"
         if [ "${TLS_ENABLED}" = "yes" ]; then
             bind_string="  bind ${OS_PUBLIC_IP}:35357 ssl crt ${REMOTE_CA_CERT}"
         fi
-        for controller_node_id in ${controller_node_ids}; do
-            ssh node-${controller_node_id} "echo ${bind_string} >> ${KEYSTONE_HAPROXY_CONFIG_PATH}"
+        for controller_node_ip in ${controller_node_ips}; do
+            ssh ${controller_node_ip} "echo ${bind_string} >> ${KEYSTONE_HAPROXY_CONFIG_PATH}"
         done
 
         message "Restart haproxy"
@@ -132,13 +131,13 @@ add_dns_entry_for_tls () {
 }
 
 function main(){
-    init_vars
+    init_vars "$@"
     add_dns_entry_for_tls
     placing_files
-    add_public_bind_to_keystone_haproxy_conf
+    add_public_bind_to_keystone_haproxy_conf "$@"
     modify_endpoints
     pull_rally_image
     start_rally_container
 }
 
-main
+main "$@"
