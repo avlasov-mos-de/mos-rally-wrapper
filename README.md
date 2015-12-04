@@ -12,7 +12,7 @@ Install git, clone repo, change to mos-rally-wrapper directory and execute scrip
   *yum -y install git*<br />
   *git clone https://github.com/avlasov-mos-de/mos-rally-wrapper.git*<br />
   *cd mos-rally-wrapper*<br />
-  *./prepare_rally_container.sh*<br />
+  *./prepare_rally_container.sh --env <YOUR_ENVIRONMENT_ID>*<br />
 
 This script will: 
 - create directory rally_home which will be mounted inside rally container to /home/rally
@@ -47,3 +47,6 @@ So if you press ctrl+D when you inside container you can just login again with '
 
 clenup.sh will stop and remove 'rally-MOS-benchmarking' container as well as ~/rally_home directory
 
+#TODO
+
+- cleanup.sh should revert keystone admin endpoint.
